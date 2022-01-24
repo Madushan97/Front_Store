@@ -6,6 +6,12 @@ from django.forms import CharField
 
 # Create your models here.
 
+# many to many relationship with promotion and products
+class Promotions(models.Model):
+
+    description =models.CharField(max_length=255)
+    discount = models.FloatField()
+
 
 class Collection(models.Model):
 
@@ -24,7 +30,7 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
-
+    promotions = models.ManyToManyField(Promotions)
 
 class Customer(models.Model):
 
