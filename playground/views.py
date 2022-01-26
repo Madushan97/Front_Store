@@ -1,23 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.
-
-# view function basically do is take a requset from client side and respond to it (Request Handler)
-
-# some other framworks call it as actions
 
 def calculate():
-      x = 1
-      y = 2
-      return x
-    
-def say_Hello( request ):
+    x = 1
+    y = 2
+    return x
 
-    # pull data from DB
-    # transform
-    # send Email
 
+def say_hello(request):
     x = calculate()
-
-    return render(request, 'hello.html',  { 'name' : 'Mosh' })
+    return render(request, 'hello.html', {'name': 'Mosh'})
