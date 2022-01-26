@@ -26,9 +26,11 @@ class Product(models.Model):
     # sku = models.CharField(max_length=10, primary_key=True)
 
     title = models.CharField(max_length=255)
+    # slug is serach engine optimization techniques
+    slug = models.SlugField()
     description = models.TextField()
     # max price = 999999.99
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
@@ -53,6 +55,14 @@ class Customer(models.Model):
     phone = models.CharField(max_length=255)
     birth_day = models.DateField(null=True)
     membership = models.CharField(max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE)
+
+    class Meta:
+
+        db_table = 'store_customers'
+        indexes = [
+
+            models.Index(fields=['last_name', 'first_name'])
+        ]
 
 
 class Order(models.Model):
@@ -85,6 +95,7 @@ class OrderItem(models.Model):
 class Address(models.Model):
 
     street = models.CharField(max_length=255)
+    zip = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
 
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
