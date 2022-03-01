@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.db.models import Q, F
 from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product
+from store.models import OrderItem, Product
 
 def say_hello(request):
 
@@ -65,6 +65,11 @@ def say_hello(request):
     # queryset = Product.objects.values('id', 'title', 'collection__title')
 
     # getting tuples as output
-    queryset = Product.objects.values_list('id', 'title', 'collection__title')
-    return render(request, 'hello.html', {'name': 'Madushan', 'products': list(queryset)})     
+    # queryset = Product.objects.values_list('id', 'title', 'collection__title')
+    # return render(request, 'hello.html', {'name': 'Madushan', 'products': list(queryset)})     
    
+    #assignment
+    # here we can use both value or value_list methods
+    # to get rid of duplicates we have to use distinct()
+    queryset = Product.objects.filter(id__in=OrderItem.objects.values('product__id').distinct()).order_by('title')    
+    return render(request, 'hello.html', {'name': 'Madushan', 'products': list(queryset)})     
